@@ -1,3 +1,9 @@
+## 0.1.1
+
+- Links to the GitHub repository and issue tracker.
+- New README: install, examples for every table, exact rules and options.
+- Code formatted with the standard Dart style.
+
 ## 0.1.0
 
 - First release.
