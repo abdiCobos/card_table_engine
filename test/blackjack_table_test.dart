@@ -220,6 +220,27 @@ void main() {
     expect(t.currentSeat!.id, 'a');
   });
 
+  test('leaving gives back a bet placed before the deal, but not a settled one', () {
+    final before = BlackjackTable(seats: [BlackjackSeat('a', 500), BlackjackSeat('b', 500)])..placeBet('b', 100);
+    final b = before.seat('b');
+    before.removeSeat('b');
+    expect(b.chips, 500);
+
+    final t = BlackjackTable(seats: [BlackjackSeat('a', 500), BlackjackSeat('b', 500)], random: Random(4))
+      ..useShoe(Deck.stacked(cards('10s 10c 10d 9h 8c 7h'), decks: 6, random: Random(5)))
+      ..placeBet('a', 50)
+      ..placeBet('b', 50)
+      ..deal();
+    while (t.phase == BlackjackRoundPhase.playerTurn) {
+      t.stand(t.currentSeat!.id);
+    }
+    final a = t.seat('a');
+    expect(t.results['a']!.outcome, BlackjackOutcome.win);
+    expect(a.chips, 550);
+    t.removeSeat('a');
+    expect(a.chips, 550, reason: 'the winnings were already paid');
+  });
+
   test('counts fresh shoes', () {
     final t = BlackjackTable(
       seats: [BlackjackSeat('p', 100000)],

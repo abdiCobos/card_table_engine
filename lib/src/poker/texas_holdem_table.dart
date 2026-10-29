@@ -143,7 +143,9 @@ class TexasHoldemTable {
 
   /// Moves the button, posts the blinds and deals. Seats that are [TexasSeat.sittingOut] or
   /// have no chips are skipped. [deck] lets tests (or replays) choose the cards.
+  /// Throws a [StateError] while a hand is still in progress (its chips are in the pot).
   void startHand({Deck? deck}) {
+    if (handInProgress) throw StateError('The current hand has not ended');
     final eligible = [
       for (var i = 0; i < seats.length; i++)
         if (!seats[i].sittingOut && seats[i].chips > 0) i,

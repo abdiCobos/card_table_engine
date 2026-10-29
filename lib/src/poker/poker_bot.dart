@@ -43,7 +43,7 @@ class BotDecision {
   const BotDecision(this.kind, {this.raiseBy = 0, this.equity = 0});
 
   @override
-  String toString() => '$kind${kind == BotActionKind.raise ? ' +$raiseBy' : ''} (eq ${(equity * 100).round()}%)';
+  String toString() => '${kind.name}${kind == BotActionKind.raise ? ' +$raiseBy' : ''} (eq ${(equity * 100).round()}%)';
 }
 
 /// Everything the bot is allowed to know at its turn (never other players' cards).

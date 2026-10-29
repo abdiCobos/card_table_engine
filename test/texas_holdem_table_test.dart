@@ -152,6 +152,16 @@ void main() {
     expect(() => table({'a': 1000}).startHand(), throwsStateError);
   });
 
+  test('a new hand cannot start before the current one ends', () {
+    final t = table({'a': 1000, 'b': 1000})..startHand();
+    t.raise(t.currentSeat!.id, 200);
+    expect(() => t.startHand(), throwsStateError);
+    expect(chips(t), 2000, reason: 'the pot is still on the table');
+    t.fold(t.currentSeat!.id);
+    t.startHand();
+    expect(chips(t), 2000);
+  });
+
   test('variants: dead money joins the main pot, hole cards can be swapped', () {
     final t = table({'a': 1000, 'b': 1000})..startHand(deck: dealing('2c Ah 3d Ad  Kc Ks 4h 9d Jc'));
     t.addDeadMoney(50);
