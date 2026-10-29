@@ -2,7 +2,7 @@ name: card_table_engine
 description: >-
   Texas Hold'em and Blackjack rules in pure Dart: hand evaluator, side pots, full betting
   table, Blackjack table with insurance and splits, and poker/Blackjack bots.
-version: 0.1.1
+version: 0.1.2
 repository: https://github.com/abdiCobos/card_table_engine
 issue_tracker: https://github.com/abdiCobos/card_table_engine/issues
 topics:

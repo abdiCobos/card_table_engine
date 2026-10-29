@@ -409,13 +409,14 @@ class BlackjackTable {
     seats.add(s);
   }
 
-  /// Removes a seat that has nothing on the table this round.
+  /// Removes a seat that has nothing on the table this round. A bet placed before the deal
+  /// goes back to the seat; once the round is settled its payouts are already in its chips.
   void removeSeat(String id) {
     final i = seats.indexWhere((s) => s.id == id);
     if (i < 0) return;
     final active = phase != BlackjackRoundPhase.betting && phase != BlackjackRoundPhase.settled;
     if (active && seats[i].isPlaying) throw StateError('$id is playing this round');
-    seats[i].chips += seats[i].totalBet + seats[i].insurance; // a pending bet goes back
+    if (phase == BlackjackRoundPhase.betting) seats[i].chips += seats[i].totalBet; // a pending bet goes back
     seats.removeAt(i);
     if (currentIndex > i) currentIndex--;
   }
